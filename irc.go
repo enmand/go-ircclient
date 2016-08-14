@@ -10,10 +10,9 @@ package irc
 
 import (
 	"fmt"
+	"math/rand"
 	"net"
 	"time"
-
-	"github.com/renstrom/shortuuid"
 )
 
 // TIMEOUT is the connection timeout to the IRC server
@@ -118,9 +117,10 @@ func (i *Client) authenticate(c IRC) {
 }
 
 func fixNick(nick string, c IRC) string {
-	uniq := shortuuid.UUID()
+	r := rand.New(rand.NewSource(time.Now().Unix()))
+	uniq := r.Int()
 
-	newNick := fmt.Sprintf("%s_%s", nick, uniq)
+	newNick := fmt.Sprintf("%s_%d", nick, uniq)
 
 	return newNick[:9] // minimum max length in 9
 }
