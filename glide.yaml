@@ -1,4 +1,0 @@
-package: github.com/enmand/go-ircclient
-import:
-- package: github.com/renstrom/shortuuid
-  version: ^2.0.0
