@@ -76,7 +76,7 @@ func NewClient(nick, ident string, tls, tlsverify bool) *Client {
 	}
 
 	c.Handle(
-		[]Filter{CommandFilter{Command: IRC_PING}},
+		[]Filter{CommandFilter(IRC_PING)},
 		func(ev *Event, c IRC) {
 			ev.Command = IRC_PONG
 			c.Write(ev)
@@ -84,14 +84,14 @@ func NewClient(nick, ident string, tls, tlsverify bool) *Client {
 	)
 
 	c.Handle(
-		[]Filter{CommandFilter{Command: CONNECTED}},
+		[]Filter{CommandFilter(CONNECTED)},
 		func(ev *Event, r IRC) {
 			c.authenticate(r)
 		},
 	)
 
 	c.Handle(
-		[]Filter{CommandFilter{Command: IRC_ERR_NICKNAMEINUSE}},
+		[]Filter{CommandFilter(IRC_ERR_NICKNAMEINUSE)},
 		func(ev *Event, r IRC) {
 			c.Nick = fixNick(c.Nick, r)
 			writeNick(c.Nick, r)

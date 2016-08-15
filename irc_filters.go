@@ -17,15 +17,13 @@ type Handler struct {
 }
 
 // CommandFilter filters events based on the IRC command of the event
-type CommandFilter struct {
-	Command string
-}
+type CommandFilter string
 
-// Match this filter, against incoming events.
+// Match events for CommandFilter
 func (cf CommandFilter) Match(ev *Event) bool {
-	if cf.Command == "*" || cf.Command == "" {
+	if cf == "*" || cf == "" {
 		// Match all events
 		return true
 	}
-	return cf.Command == ev.Command
+	return cf == CommandFilter(ev.Command)
 }
