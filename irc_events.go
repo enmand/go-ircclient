@@ -39,15 +39,6 @@ func (i *Client) Read() error {
 	return i.read()
 }
 
-// Loop over the client's events channel and handle any events in a goroutine
-func (i *Client) Loop() {
-	for m := range i.events {
-		go i.handleEvent(m)
-	}
-
-	fmt.Println("Done reading events")
-}
-
 // Handle defines events that should be filtered to preform a handler function.
 // Using "*" or "" for a filter, will cause all events to be passed to the
 // HandlerFunc.
@@ -70,6 +61,15 @@ func (i *Client) handleEvent(ev *Event) {
 			}
 		}
 	}
+}
+
+// loop handles events from the event chan
+func (i *Client) loop() {
+	for m := range i.events {
+		go i.handleEvent(m)
+	}
+
+	fmt.Println("Done reading events")
 }
 
 // read n lines from the server. if n is 0, continue reading until we can't

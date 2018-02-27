@@ -38,6 +38,8 @@ func (i *Client) connect() error {
 		return fmt.Errorf("Could not connect to server: %s", err)
 	}
 
+	go i.loop()
+
 	i.events <- &Event{
 		Command: CONNECTED,
 	}
